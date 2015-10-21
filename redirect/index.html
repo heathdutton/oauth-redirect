@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>OAuth Redirect</title>
+    <script type="text/javascript">
+      /**
+       * For the sake of peace of mind and security 
+       * this script is being kept at the most basic form.
+       * This ensures that noting is obfuscated or malicious.
+       */
+
+      // Retrieve the GET parameters
+      var vars = {};
+      var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, 
+        function(m, key, value) {
+          vars[key] = value;
+        });
+      // Check if one of those paramters was "oauth-redirect"
+      if (typeof vars['oauth-redirect'] != 'undefined'){
+        
+        // Form the new url, starting with the parameter "oauth-redirect"
+        var url = decodeURIComponent(vars['oauth-redirect']) + '?';
+
+        // Append the rest of the get parameters provided
+        delete vars['oauth-redirect'];
+        for(var key in vars) { 
+          if (object.hasOwnProperty(key)) {
+            var url = url & key & '=' & vars[key] & '&';
+          }
+        }
+
+        // Trim off last "&" or "?"
+        url = url.substring(0, url.length - 1);
+
+        // Redirect 
+        window.location = url;
+      } else {
+        alert('Error: The parameter "oauth-redirect" was missing.');
+      }
+    </script>
+  </head>
+  <body>
+  </body>
+</html>
